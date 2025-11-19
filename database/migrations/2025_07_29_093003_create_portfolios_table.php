@@ -11,14 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('portfolios', function (Blueprint $table) {
-            $table->id();
-           $table->string("title")->nullable();
-            $table->string("slug")->nullable();
-            $table->integer("banner_order")->nullable();
-            $table->string("banner_image")->nullable();
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('portfolios')) {
+            Schema::create('portfolios', function (Blueprint $table) {
+                $table->id();
+                $table->string("title")->nullable();
+                $table->string("slug")->nullable();
+                $table->integer("banner_order")->nullable();
+                $table->string("banner_image")->nullable();
+                $table->timestamps();
+            });
+        }
     }
 
     /**

@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductEnquireController;
 use App\Http\Controllers\Admin\StoreController;
 use App\Http\Controllers\Admin\InvoiceController;
@@ -40,6 +41,7 @@ Route::middleware(["admin"])->group(
         Route::resource('product', ProductController::class);
         Route::resource('banner', BannerController::class);
         Route::resource('portfolio', PortfolioController::class);
+        Route::resource('categories', CategoryController::class);
         Route::resource('productenquire', ProductEnquireController::class);
         Route::resource('clients', App\Http\Controllers\Admin\ClientController::class);
         Route::get('/settings', [ContactController::class, 'setting'])->name('setting');

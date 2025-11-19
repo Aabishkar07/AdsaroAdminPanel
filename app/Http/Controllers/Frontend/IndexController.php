@@ -19,18 +19,12 @@ use PhpParser\Node\Stmt\Return_;
 class IndexController extends Controller
 {
     //
-    public function index()
-    {
-        $clients = Partner::get();
-        $teams = Team::orderBy("order", "asc")->get();
-        $banners = Banner::first();
-        $services = Service::orderBy("order", "asc")->get();
-        $testimonials = Testimonial::active()->ordered()->get();
+public function index()
+{
+    return redirect('https://www.adsaro.com/');
+}
 
-        $blogs = Blog::orderBy("id", "desc")->latest()->take(3)->get();
-        return view("frontend.home.index", compact('clients', 'banners', 'teams', 'services', 'blogs', 'testimonials'));
 
-    }
 
     public function portfolio()
     {

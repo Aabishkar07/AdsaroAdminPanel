@@ -53,7 +53,7 @@
             <p>Email: <strong>{{ $mailData['email'] }}</strong></p>
             <p>Subject: <strong>{{ $mailData['subject'] }}</strong></p>
             <p>Message: <strong>{{ $mailData['message'] }}</strong></p>
-            <p>Phone: <strong>{{ $mailData['phone'] }}</strong></p>
+            {{-- <p>Phone: <strong>{{ $mailData['phone'] }}</strong></p> --}}
         </div>
 
         <div class="footer">

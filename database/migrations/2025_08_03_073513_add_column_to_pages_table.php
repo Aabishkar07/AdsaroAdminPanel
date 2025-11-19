@@ -12,10 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('pages', function (Blueprint $table) {
-            //
-            $table->longText('third_description')->nullable();
-            $table->string('third_image')->nullable();
-            $table->longText('fourth_description');
+            if (!Schema::hasColumn('pages', 'third_description')) {
+                $table->longText('third_description')->nullable();
+            }
+            if (!Schema::hasColumn('pages', 'third_image')) {
+                $table->string('third_image')->nullable();
+            }
+            if (!Schema::hasColumn('pages', 'fourth_description')) {
+                $table->longText('fourth_description')->nullable();
+            }
         });
     }
 
@@ -25,7 +30,15 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('pages', function (Blueprint $table) {
-            //
+            if (Schema::hasColumn('pages', 'third_description')) {
+                $table->dropColumn('third_description');
+            }
+            if (Schema::hasColumn('pages', 'third_image')) {
+                $table->dropColumn('third_image');
+            }
+            if (Schema::hasColumn('pages', 'fourth_description')) {
+                $table->dropColumn('fourth_description');
+            }
         });
     }
 };

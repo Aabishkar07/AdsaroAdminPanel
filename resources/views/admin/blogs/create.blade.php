@@ -98,6 +98,44 @@
                             </div>
                         </div>
 
+                        <div class="mt-4">
+                            <label class="text-xs font-semibold w-full">Category</label>
+                            @php($oldCategoryId = old('category_id'))
+                            <div class="mt-2 border border-gray-200 rounded-lg divide-y">
+                                @forelse($categories as $parent)
+                                    <div class="p-3">
+                                        <div class="text-xs font-medium text-gray-800">{{ $parent->name }}</div>
+                                        @if($parent->children->count())
+                                            <div class="mt-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                                                @foreach($parent->children->sortBy('name') as $child)
+                                                    <label class="inline-flex items-center gap-2 text-xs text-gray-700 bg-gray-50 border border-gray-200 rounded-md px-3 py-2">
+                                                        <input type="radio" name="category_id" value="{{ $child->id }}"
+                                                            class="h-3.5 w-3.5 text-indigo-600 border-gray-300 focus:ring-indigo-500"
+                                                            {{ (string)$oldCategoryId === (string)$child->id ? 'checked' : '' }}>
+                                                        <span>{{ $child->name }}</span>
+                                                    </label>
+                                                @endforeach
+                                            </div>
+                                        @else
+                                            <label class="mt-2 inline-flex items-center gap-2 text-xs text-gray-700 bg-gray-50 border border-gray-200 rounded-md px-3 py-2">
+                                                <input type="radio" name="category_id" value="{{ $parent->id }}"
+                                                    class="h-3.5 w-3.5 text-indigo-600 border-gray-300 focus:ring-indigo-500"
+                                                    {{ (string)$oldCategoryId === (string)$parent->id ? 'checked' : '' }}>
+                                                <span>{{ $parent->name }}</span>
+                                            </label>
+                                        @endif
+                                    </div>
+                                @empty
+                                    <div class="p-3 text-xs text-gray-500">No categories yet.</div>
+                                @endforelse
+                            </div>
+                            @error('category_id')
+                                <div class="invalid-feedback text-red-400 text-xs" style="display: block;">
+                                    * {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+
                         <div class="mt-3">
                             <label class="text-xs font-semibold w-full">Meta Title</label>
                             <div>

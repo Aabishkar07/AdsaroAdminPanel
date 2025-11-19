@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('clients', function (Blueprint $table) {
-            //
-                        $table->string('quotation_file')->nullable()->after('reference_website');
-
-        });
+        if (Schema::hasTable('clients') && !Schema::hasColumn('clients', 'quotation_file')) {
+            Schema::table('clients', function (Blueprint $table) {
+                $table->string('quotation_file')->nullable()->after('reference_website');
+            });
+        }
     }
 
     /**
@@ -23,8 +23,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('clients', function (Blueprint $table) {
-            //
-        });
+        if (Schema::hasTable('clients') && Schema::hasColumn('clients', 'quotation_file')) {
+            Schema::table('clients', function (Blueprint $table) {
+                $table->dropColumn('quotation_file');
+            });
+        }
     }
 };

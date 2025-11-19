@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreBlogRequest;
 use App\Http\Requests\UpdateBlogRequest;
 use App\Models\Blog;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
@@ -42,9 +43,8 @@ class BlogController extends Controller
     public function create()
     {
         abort_unless(Gate::allows('Add Blog'), 403);
-
-
-        return view('admin.blogs.create');
+        $categories = Category::with('children')->parents()->orderBy('name')->get();
+        return view('admin.blogs.create', compact('categories'));
     }
 
     /**
@@ -58,6 +58,9 @@ class BlogController extends Controller
 
         abort_unless(Gate::allows('Add Blog'), 403);
 
+        $request->validate([
+            'category_id' => ['nullable', 'exists:categories,id'],
+        ]);
 
         $now = Carbon::now();
         $data = [
@@ -71,7 +74,7 @@ class BlogController extends Controller
             'comment_status' => 'open',
             'ping_status' => 'open',
             'post_password' => '',
-            'post_name' => $request->filled('post_name') ? Str::slug($request->input('post_name')) : Str::slug($request->input('post_title')),
+            'slug' => $request->filled('post_name') ? Str::slug($request->input('post_name')) : Str::slug($request->input('post_title')),
             'to_ping' => '',
             'pinged' => '',
             'post_modified' => $now,
@@ -90,6 +93,7 @@ class BlogController extends Controller
         $data['meta_title'] = $request->input('meta_title');
         $data['meta_description'] = $request->input('meta_description');
         $data['keywords'] = $request->input('keywords');
+        $data['category_id'] = $request->input('category_id');
 
         if ($request->hasFile('image')) {
             $service = new ImageService();
@@ -97,7 +101,7 @@ class BlogController extends Controller
             $data['image'] = $imageName;
         }
 
-        Blog::create($data);
+        $blog = Blog::create($data);
 
         return redirect()->route('admin.blogs.index')->with('popsuccess', 'Blog Added');
     }
@@ -118,9 +122,8 @@ class BlogController extends Controller
     public function edit(Blog $blog)
     {
         abort_unless(Gate::allows('Edit Blog'), 403);
-
-
-        return view('admin.blogs.edit', compact("blog"));
+        $categories = Category::with('children')->parents()->orderBy('name')->get();
+        return view('admin.blogs.edit', compact("blog", 'categories'));
     }
     /**
      * Update the specified resource in storage.
@@ -133,12 +136,12 @@ class BlogController extends Controller
         // dd($blog);
         // dd($request->all());
         $blogs=Blog::find($blog->id);
-        // dd($blogs);
 
-        abort_unless(Gate::allows('Edit Blog'), 403);
+        // abort_unless(Gate::allows('Edit Blog'), 403);
         $req = $request->all();
 
-        $req['post_name'] = Str::slug($req['post_title']);
+        $req['slug'] = Str::slug($req['post_title']);
+
         $now = Carbon::now();
         $req['post_modified_gmt'] = $now->copy()->utc();
         $req['post_modified'] = $now;
@@ -165,6 +168,7 @@ class BlogController extends Controller
         }
         // dd($req);
 
+        $req['category_id'] = $request->input('category_id');
         $blogs->update($req);
 
 

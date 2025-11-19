@@ -12,12 +12,12 @@ class BlogController extends Controller
     public function blogs(Request $request)
     {
         try {
-            // $perPage = $request->input('per_page', 10); 
+            // $perPage = $request->input('per_page', 10);
 
             $blogs = Blog::where('post_status', 'publish')
-                ->orderBy('post_modified', 'DESC')->get();
+                ->orderBy('post_modified', 'DESC')->paginate(12);
                 // ->paginate($perPage);
-            return response()->json([   
+            return response()->json([
                 'status' => true,
                 'data' => $blogs
             ]);
@@ -35,7 +35,7 @@ class BlogController extends Controller
     try {
         $blogs = Blog::where('post_status', 'publish')
                      ->orderBy('post_modified', 'DESC')
-                     ->take(4) 
+                     ->take(3)
                      ->get();
 
         return response()->json([
@@ -51,22 +51,20 @@ class BlogController extends Controller
 }
 
     // Show single blog details
-    public function singleblog($id)
-    {
-        try {
-            $blog = Blog::findOrFail($id);
-
-            return response()->json([
-                'status' => true,
-                'data' => $blog
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => false,
-                'error' => $e->getMessage()
-            ], 500);
-        }
+    public function singleblog(Blog $blog)
+{
+    try {
+        return response()->json([
+            'status' => true,
+            'data' => $blog
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => false,
+            'error' => $e->getMessage()
+        ], 500);
     }
+}
 
 
 public function relatedBlogs($slug)

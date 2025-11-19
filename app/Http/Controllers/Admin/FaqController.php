@@ -35,14 +35,10 @@ class FaqController extends Controller
      */
     public function store(Request $request)
     {
-        abort_unless(Gate::allows('Add FAQ'), 403);
-        $request->validate([
-            'question' => 'required|string|max:500',
-            'answer' => 'required|string',
-            'order' => 'nullable|integer|min:0',
-            'is_active' => 'boolean'
-        ]);
 
+
+        abort_unless(Gate::allows('Add FAQ'), 403);
+    
         $faq = new Faq();
         $faq->question = $request->question;
         $faq->answer = $request->answer;

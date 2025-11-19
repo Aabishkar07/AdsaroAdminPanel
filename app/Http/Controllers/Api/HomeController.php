@@ -7,6 +7,12 @@ use App\Models\Page;
 use App\Models\Service;
 use App\Models\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Contact as MailContact;
+use App\Models\Contact;
+use App\Models\Faq;
+
+use function Laravel\Prompts\error;
 
 class HomeController extends Controller
 {
@@ -61,6 +67,35 @@ class HomeController extends Controller
         }
     }
 
+    public function relatedformats($slug)
+{
+    try {
+        // Find the current blog by slug
+        $currentformat = Service::where('slug', $slug)->first();
+
+        if (!$currentformat) {
+            return response()->json([
+                'status' => 'ERROR',
+                'message' => 'format not found'
+            ], 404);
+        }
+
+        // Fetch other published formats excluding the current one
+        $relatedformats = Service::where('id', '!=', $currentformat->id)
+            ->get();
+
+        return response()->json([
+            'status' => 'OK',
+            'data' => $relatedformats
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'ERROR',
+            'message' => 'Failed to load related formats'
+        ], 500);
+    }
+}
+
     public function setting()
     {
         try {
@@ -108,4 +143,90 @@ class HomeController extends Controller
             ], 500);
         }
     }
+
+        public function advertising()
+    {
+        try {
+            $advertising = Page::where('id', 2)->first();
+            return response()->json([
+                'status' => true,
+                'data' => $advertising
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+        public function publisher()
+    {
+        try {
+            $publisher = Page::where('id', 3)->first();
+            return response()->json([
+                'status' => true,
+                'data' => $publisher
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+      public function faq()
+    {
+        try {
+             $faq = Faq::orderBy('order', 'asc')->get();
+
+            return response()->json([
+                'status' => true,
+                'data' => $faq
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+
+public function contact(Request $request)
+{
+
+
+
+    // Create contact in DB using the model
+    $contact = Contact::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'subject' => $request->subject,
+        'message' => $request->message,
+        // 'phone' => $request->phone,
+    ]);
+
+    // Prepare mail data
+    $mailData = [
+        'name' => $request->name,
+        'email' => $request->email,
+        'subject' => $request->subject,
+        'message' => $request->message,
+        // 'phone' => $request->phone,
+    ];
+
+    // Send email
+    Mail::to('aaviscar09@gmail.com')->send(new MailContact($mailData));
+
+    // Return JSON response
+    return response()->json([
+        'success' => true,
+        'message' => 'Feedback submitted successfully',
+        'data' => $contact
+    ], 201);
+}
+
+
 }

@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('portfolios', function (Blueprint $table) {
-            //
-                        $table->string("category")->nullable();
-
-        });
+        if (Schema::hasTable('portfolios') && !Schema::hasColumn('portfolios', 'category')) {
+            Schema::table('portfolios', function (Blueprint $table) {
+                $table->string("category")->nullable();
+            });
+        }
     }
 
     /**
@@ -23,8 +23,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('portfolios', function (Blueprint $table) {
-            //
-        });
+        if (Schema::hasTable('portfolios') && Schema::hasColumn('portfolios', 'category')) {
+            Schema::table('portfolios', function (Blueprint $table) {
+                $table->dropColumn('category');
+            });
+        }
     }
 };

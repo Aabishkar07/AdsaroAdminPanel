@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('pages', function (Blueprint $table) {
-            //
-            $table->string('secondary_description');
-        });
+        if (!Schema::hasColumn('pages', 'secondary_description')) {
+            Schema::table('pages', function (Blueprint $table) {
+                $table->string('secondary_description')->nullable();
+            });
+        }
     }
 
     /**
@@ -22,8 +23,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('pages', function (Blueprint $table) {
-            //
-        });
+        if (Schema::hasColumn('pages', 'secondary_description')) {
+            Schema::table('pages', function (Blueprint $table) {
+                $table->dropColumn('secondary_description');
+            });
+        }
     }
 };

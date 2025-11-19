@@ -28,6 +28,7 @@ class Blog extends Model
         'post_content_filtered',
         'post_parent',
         'guid',
+        'slug',
         'menu_order',
         'post_type',
         'post_mime_type',
@@ -36,5 +37,11 @@ class Blog extends Model
         'meta_title',
         'meta_description',
         'keywords',
+        'category_id',
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
 }

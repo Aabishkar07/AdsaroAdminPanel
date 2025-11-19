@@ -65,25 +65,7 @@
                     class="absolute left-0 ml-2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">Blogs</span>
             </a>
         @endcan
-
-        @can('View Meta Page')
-            <!-- Meta Pages -->
-            <a href="{{ route('admin.metapages.index') }}"
-                class="{{ request()->segment(2) == 'metapages' ? 'bg-[#8380d4] text-white' : 'text-gray-300 hover:bg-[#6a68AF] hover:text-white' }}
-                  flex items-center px-3 py-2 rounded-lg transition-all duration-200 group">
-                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
-                    </path>
-                </svg>
-                <span x-show="sidebarOpen" x-transition class="ml-3 text-sm font-medium">Meta Pages</span>
-                <span x-show="!sidebarOpen" x-transition
-                    class="absolute left-0 ml-2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">Meta
-                    Pages</span>
-            </a>
-        @endcan
-
-        @can('View Banner')
+           @can('View Banner')
             <!-- Banner -->
             <a href="{{ route('admin.banner.index') }}"
                 class="{{ request()->segment(2) == 'banner' ? 'bg-[#8380d4] text-white' : 'text-gray-300 hover:bg-[#6a68AF] hover:text-white' }}
@@ -98,6 +80,22 @@
                     class="absolute left-0 ml-2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">Banner</span>
             </a>
         @endcan
+
+
+
+
+
+        <!-- Categories -->
+        <a href="{{ route('admin.categories.index') }}"
+            class="{{ request()->segment(2) == 'categories' ? 'bg-[#8380d4] text-white' : 'text-gray-300 hover:bg-[#6a68AF] hover:text-white' }}
+                  flex items-center px-3 py-2 rounded-lg transition-all duration-200 group">
+            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path>
+            </svg>
+            <span x-show="sidebarOpen" x-transition class="ml-3 text-sm font-medium">Categories</span>
+            <span x-show="!sidebarOpen" x-transition
+                class="absolute left-0 ml-2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">Categories</span>
+        </a>
 
         {{-- @can('View Portfolio')
             <!-- Portfolio -->
@@ -147,7 +145,7 @@
             </a>
         @endcan --}}
 
-        @can('View Team')
+        {{-- @can('View Team')
             <!-- Team -->
             <a href="{{ route('admin.teams.index') }}"
                 class="{{ request()->segment(2) == 'teams' ? 'bg-[#8380d4] text-white' : 'text-gray-300 hover:bg-[#6a68AF] hover:text-white' }}
@@ -161,7 +159,7 @@
                 <span x-show="!sidebarOpen" x-transition
                     class="absolute left-0 ml-2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">Team</span>
             </a>
-        @endcan
+        @endcan --}}
 
         {{-- @can('View Testimonials')
             <!-- Testimonials -->
@@ -200,13 +198,23 @@
             <a href="{{ route('admin.services.index') }}"
                 class="{{ request()->segment(2) == 'services' ? 'bg-[#8380d4] text-white' : 'text-gray-300 hover:bg-[#6a68AF] hover:text-white' }}
                   flex items-center px-3 py-2 rounded-lg transition-all duration-200 group">
-                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37c1 .608 2.296.07 2.572-1.065z">
-                    </path>
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                </svg>
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="23"
+  height="23"
+  viewBox="0 0 24 24"
+  stroke="currentColor"
+  strokeWidth="1.25"
+  strokeLinecap="round"
+  strokeLinejoin="round"
+  fill="none"
+>
+  <path d="M3 7m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v9a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z" />
+  <path d="M16 3l-4 4l-4 -4" />
+</svg>
+
+
                 <span x-show="sidebarOpen" x-transition class="ml-3 text-sm font-medium">Advertising Formats</span>
                 <span x-show="!sidebarOpen" x-transition
                     class="absolute left-0 ml-2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">Services</span>
@@ -240,7 +248,7 @@
         @endcan
 
         <!-- User Management Dropdown -->
-        <div x-data="{ isOpen: false }" class="relative">
+        {{-- <div x-data="{ isOpen: false }" class="relative">
             <button @click="isOpen = !isOpen"
                 class="{{ request()->segment(2) == 'usermanagement' || request()->segment(2) == 'userrole' || request()->segment(2) == 'permissions' ? 'bg-[#8380d4] text-white' : 'text-gray-300 hover:bg-[#6a68AF] hover:text-white' }}
                            flex items-center px-3 py-2 rounded-lg transition-all duration-200 group w-full">
@@ -303,7 +311,7 @@
                     @endcan
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <!-- CMS/Pages Dropdown -->
         <div x-data="{ dropdownOpen: false }" class="relative">
@@ -356,6 +364,24 @@
                 </div>
             </div>
         </div>
+
+
+          @can('View Meta Page')
+            <!-- Meta Pages -->
+            <a href="{{ route('admin.metapages.index') }}"
+                class="{{ request()->segment(2) == 'metapages' ? 'bg-[#8380d4] text-white' : 'text-gray-300 hover:bg-[#6a68AF] hover:text-white' }}
+                  flex items-center px-3 py-2 rounded-lg transition-all duration-200 group">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                    </path>
+                </svg>
+                <span x-show="sidebarOpen" x-transition class="ml-3 text-sm font-medium">Meta Pages</span>
+                <span x-show="!sidebarOpen" x-transition
+                    class="absolute left-0 ml-2 px-2 py-1 text-xs text-white bg-gray-800 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">Meta
+                    Pages</span>
+            </a>
+        @endcan
 
         <!-- Settings -->
         <a href="{{ route('admin.setting') }}"
